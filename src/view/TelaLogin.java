@@ -7,6 +7,7 @@ package view;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import controller.UsuarioController;
 import database.Conexao;
 import javax.swing.UIManager;
 import tools.CaixaDeDialogo;
@@ -93,8 +94,11 @@ public class TelaLogin extends javax.swing.JFrame {
             String user = txtUsuario.getText().toLowerCase().trim();
             String pass = Tools.converteCharArrayToString(txtSenha.getPassword());
             
-            Conexao.abreConexao();
-           
+            UsuarioController controller = new UsuarioController();
+            boolean existe = controller.login(user, pass);
+            if(existe){
+                CaixaDeDialogo.obterinstancia().exibirMensagem("SUCESSO");
+            }
             
         }catch(Exception ex){
             CaixaDeDialogo.obterinstancia()
