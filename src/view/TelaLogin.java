@@ -24,6 +24,8 @@ public class TelaLogin extends javax.swing.JFrame {
      */
     public TelaLogin() {
         initComponents();
+        
+        setLocationRelativeTo(null); //tela no centro
     }
 
     /**
@@ -42,6 +44,7 @@ public class TelaLogin extends javax.swing.JFrame {
         txtSenha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Usuário");
@@ -92,12 +95,18 @@ public class TelaLogin extends javax.swing.JFrame {
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         try{
             String user = txtUsuario.getText().toLowerCase().trim();
+            user = user.replaceAll("'", "");
             String pass = Tools.converteCharArrayToString(txtSenha.getPassword());
+            pass = pass.replaceAll("'", "");
             
             UsuarioController controller = new UsuarioController();
             boolean existe = controller.login(user, pass);
             if(existe){
-                CaixaDeDialogo.obterinstancia().exibirMensagem("SUCESSO");
+                TelaPrincipal tela = new TelaPrincipal();
+                tela.setVisible(true);
+                dispose();//fechar a tela em questão
+            }else{
+                CaixaDeDialogo.obterinstancia().exibirMensagem("Dados incorretos");
             }
             
         }catch(Exception ex){

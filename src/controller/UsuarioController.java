@@ -40,34 +40,26 @@ public class UsuarioController {
     public boolean login(String user, String pass)
     {
         try {
-            Conexao.abreConexao();
+            //Conexao.abreConexao();
+            Connection con = Conexao.getConnection();
             ResultSet rs = null;
-
-            String wSql = "";
-            wSql = " SELECT id, nome ";
-            wSql += " FROM usuarios ";
-            wSql += " WHERE login = '" + user + "'";
-            wSql += " AND senha = '" + pass + "'";
-            //stm.executeQuery(wSql);
-
-            try{
-                System.out.println("Vai Executar Conexão em buscar Usuario");
-                rs = Conexao.stmt.executeQuery(wSql);
-                System.out.println("Executou Conexão em buscar Usuario");
-
-                //objUsuario = new Usuario();
-                
-                return rs.next();
-            }
-
-            catch (SQLException ex )
-            {
-                System.out.println("ERRO de SQL: " + ex.getMessage().toString());
-                return false;
-            }
-
-        } catch (Exception e) {
-            System.out.println("ERRO: " + e.getMessage().toString());
+            PreparedStatement stmt = null;
+           
+            String wSQL = " SELECT id, nome FROM usuarios WHERE login = ? AND senha = md5(md5(encode(?::bytea, 'base64'))) ";
+            stmt = con.prepareStatement(wSQL);
+            stmt.setString(1, user);    
+            stmt.setString(2, pass);
+    
+            rs = stmt.executeQuery();
+            
+            //objUsuario = new Usuario();
+            return rs.next();
+              
+        } catch (SQLException ex ){
+            System.out.println("ERRO de SQL: " + ex.getMessage());
+            return false;
+        }catch (Exception e) {
+            System.out.println("ERRO: " + e.getMessage());
             return false;
         }
 		
