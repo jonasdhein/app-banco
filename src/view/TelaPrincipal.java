@@ -6,6 +6,7 @@
 package view;
 
 import javax.swing.JFrame;
+import tools.CaixaDeDialogo;
 
 /**
  *
@@ -19,7 +20,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public TelaPrincipal() {
         initComponents();
         
-        setExtendedState(JFrame.MAXIMIZED_BOTH); //janela maximizada
+        //deixa a tela maximizada
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -31,38 +33,106 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuBar2 = new javax.swing.JMenuBar();
+        menCadastros = new javax.swing.JMenu();
+        menUsuarios = new javax.swing.JMenuItem();
+        menCandidatos = new javax.swing.JMenuItem();
+        menSistema = new javax.swing.JMenu();
+        menSair = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jMenu1.setText("Cadastros");
+        menCadastros.setText("Cadastros");
 
-        jMenuItem1.setText("jMenuItem1");
-        jMenu1.add(jMenuItem1);
+        menUsuarios.setText("Usuários");
+        menUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menUsuariosActionPerformed(evt);
+            }
+        });
+        menCadastros.add(menUsuarios);
 
-        jMenuBar1.add(jMenu1);
+        menCandidatos.setText("Candidatos");
+        menCandidatos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menCandidatosActionPerformed(evt);
+            }
+        });
+        menCadastros.add(menCandidatos);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jMenuBar2.add(menCadastros);
 
-        setJMenuBar(jMenuBar1);
+        menSistema.setText("Sistema");
+        menSistema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menSistemaActionPerformed(evt);
+            }
+        });
+
+        menSair.setText("Sair");
+        menSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menSairActionPerformed(evt);
+            }
+        });
+        menSistema.add(menSair);
+
+        jMenuBar2.add(menSistema);
+
+        setJMenuBar(jMenuBar2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 530, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 310, Short.MAX_VALUE)
+            .addGap(0, 276, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void menSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menSistemaActionPerformed
+        
+    }//GEN-LAST:event_menSistemaActionPerformed
+
+    private void menSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menSairActionPerformed
+        try{
+            boolean resposta = CaixaDeDialogo.obterinstancia()
+                    .pedirConfirmacao("Deseja mesmo sair do programa?", 
+                        "Confirmação", 'p');
+            
+            if (resposta){
+                System.exit(0); //fecha todo o programa
+            }
+            
+        }catch(Exception ex){
+            CaixaDeDialogo.obterinstancia().exibirMensagem("Erro ao sair do programa");
+        }
+    }//GEN-LAST:event_menSairActionPerformed
+
+    private void menUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menUsuariosActionPerformed
+        try{
+            TelaUsuarios tela = new TelaUsuarios();
+            tela.setVisible(true);
+            
+        }catch(Exception ex){
+            CaixaDeDialogo.obterinstancia().exibirMensagem("Erro");
+        }
+    }//GEN-LAST:event_menUsuariosActionPerformed
+
+    private void menCandidatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCandidatosActionPerformed
+        try{
+            TelaCandidatos tela = new TelaCandidatos();
+            tela.setVisible(true);
+            
+        }catch(Exception ex){
+            CaixaDeDialogo.obterinstancia().exibirMensagem("Erro");
+        }
+    }//GEN-LAST:event_menCandidatosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -100,9 +170,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenu menCadastros;
+    private javax.swing.JMenuItem menCandidatos;
+    private javax.swing.JMenuItem menSair;
+    private javax.swing.JMenu menSistema;
+    private javax.swing.JMenuItem menUsuarios;
     // End of variables declaration//GEN-END:variables
 }

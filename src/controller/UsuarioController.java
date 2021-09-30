@@ -21,6 +21,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import model.Usuario;
 //import model.Usuario;
 
 /**
@@ -61,6 +62,69 @@ public class UsuarioController {
         }catch (Exception e) {
             System.out.println("ERRO: " + e.getMessage());
             return false;
+        }
+		
+    }
+    
+    public boolean verificaExistencia(Usuario objeto)
+    {
+        try {
+            //Conexao.abreConexao();
+            Connection con = Conexao.getConnection();
+            ResultSet rs = null;
+            PreparedStatement stmt = null;
+           
+            String wSQL = " SELECT id FROM usuarios WHERE login = ? ";
+            stmt = con.prepareStatement(wSQL);
+            stmt.setString(1, objeto.getLogin());    
+    
+            rs = stmt.executeQuery();
+            
+            if(rs.next()){
+                return true; //se existir, retorna TRUE
+            }else{
+                return false;
+            }
+              
+        } catch (SQLException ex ){
+            System.out.println("ERRO de SQL: " + ex.getMessage());
+            return false;
+        }catch (Exception e) {
+            System.out.println("ERRO: " + e.getMessage());
+            return false;
+        }
+		
+    }
+    
+    public boolean incluir(Usuario objeto)
+    {
+        try {
+            Connection con = Conexao.getConnection();
+            PreparedStatement stmt = null;
+            
+            //VALIDAR SE O LOGIN EXISTE
+            if(verificaExistencia(objeto) == true){
+                return false;
+            }else{
+           
+                String wSQL = " INSERT INTO usuarios VALUES(DEFAULT, ?, ?, md5(md5(encode(?::bytea, 'base64')))) ";
+                stmt = con.prepareStatement(wSQL);
+                stmt.setString(1, objeto.getNome());    
+                stmt.setString(2, objeto.getLogin());            
+                stmt.setString(3, objeto.getSenha());
+
+                stmt.executeUpdate();
+            
+            }
+              
+        } catch (SQLException ex ){
+            System.out.println("ERRO de SQL: " + ex.getMessage());
+            return false;
+        }catch (Exception e) {
+            System.out.println("ERRO: " + e.getMessage());
+            return false;
+        }finally{
+            return true;
         }
 		
     }
