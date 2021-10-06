@@ -46,7 +46,7 @@ public class UsuarioController {
             ResultSet rs = null;
             PreparedStatement stmt = null;
            
-            String wSQL = " SELECT id, nome FROM usuarios WHERE login = ? AND senha = md5(md5(encode(?::bytea, 'base64'))) ";
+            String wSQL = " SELECT id, nome FROM usuarios WHERE COALESCE(excluido,false) = false AND login = ? AND senha = md5(md5(encode(?::bytea, 'base64'))) ";
             stmt = con.prepareStatement(wSQL);
             stmt.setString(1, user);    
             stmt.setString(2, pass);
@@ -63,6 +63,42 @@ public class UsuarioController {
             System.out.println("ERRO: " + e.getMessage());
             return false;
         }
+		
+    }
+    
+    public Usuario buscar(String codigo)
+    {
+        Usuario objUsuario = null;
+        try {
+            Connection con = Conexao.getConnection();
+            ResultSet rs = null;
+            PreparedStatement stmt = null;
+           
+            String wSQL = " SELECT * FROM usuarios WHERE id = ? ";
+            stmt = con.prepareStatement(wSQL);
+            stmt.setInt(1, Integer.parseInt(codigo));   
+    
+            rs = stmt.executeQuery();
+            
+            if(rs.next()){
+                objUsuario = new Usuario();
+                
+                objUsuario.setId(rs.getInt("id"));
+                objUsuario.setNome(rs.getString("nome"));
+                objUsuario.setLogin(rs.getString("login"));
+                objUsuario.setSenha(rs.getString("senha"));
+                objUsuario.setExcluido(rs.getBoolean("excluido"));
+            }
+              
+        } catch (SQLException ex ){
+            System.out.println("ERRO de SQL: " + ex.getMessage());
+            return null;
+        }catch (Exception e) {
+            System.out.println("ERRO: " + e.getMessage());
+            return null;
+        }
+        
+        return objUsuario;
 		
     }
     
@@ -107,11 +143,11 @@ public class UsuarioController {
                 return false;
             }else{
            
-                String wSQL = " INSERT INTO usuarios VALUES(DEFAULT, ?, ?, md5(md5(encode(?::bytea, 'base64')))) ";
+                String wSQL = " INSERT INTO usuarios VALUES(DEFAULT, ?, ?, md5(md5(encode(?::bytea, 'base64'))), false) ";
                 stmt = con.prepareStatement(wSQL);
                 stmt.setString(1, objeto.getNome());    
                 stmt.setString(2, objeto.getLogin());            
-                stmt.setString(3, objeto.getSenha());
+                stmt.setString(3, objeto.getSenha());   
 
                 stmt.executeUpdate();
             
@@ -127,5 +163,118 @@ public class UsuarioController {
             return true;
         }
 		
+    }
+    
+    public boolean excluir(String codigo)
+    {
+        try {
+            Connection con = Conexao.getConnection();
+            PreparedStatement stmt = null;
+              
+            String wSQL = " UPDATE usuarios SET excluido = true WHERE id = ? ";
+            stmt = con.prepareStatement(wSQL);
+            stmt.setString(1, codigo);
+
+            stmt.executeUpdate();
+            
+            return true;
+              
+        } catch (SQLException ex ){
+            System.out.println("ERRO de SQL: " + ex.getMessage());
+            return false;
+        }catch (Exception e) {
+            System.out.println("ERRO: " + e.getMessage());
+            return false;
+        }		
+    }
+    
+    public void preencher(JTable jtbUsuarios) {
+
+        Conexao.abreConexao();
+        
+        Vector<String> cabecalhos = new Vector<String>();
+        Vector dadosTabela = new Vector(); //receber os dados do banco
+        
+        cabecalhos.add("Id");
+        cabecalhos.add("Nome");
+        cabecalhos.add("Exc");
+             
+        ResultSet result = null;
+        
+        try {
+
+            String wSql = " SELECT id, nome FROM usuarios WHERE COALESCE(excluido,false) = false ORDER BY nome ";
+            
+            result = Conexao.stmt.executeQuery(wSql);
+            
+            Vector<Object> linha;
+            while(result.next()) {
+                linha = new Vector<Object>();
+                
+                linha.add(result.getInt(1));
+                linha.add(result.getString(2));    
+
+                linha.add("X");
+                
+                dadosTabela.add(linha);
+            }
+            
+        } catch (Exception e) {
+            System.out.println("problemas para popular tabela...");
+            System.out.println(e);
+        }        
+
+        jtbUsuarios.setModel(new DefaultTableModel(dadosTabela, cabecalhos) {
+
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+              return false;
+            }
+            // permite seleção de apenas uma linha da tabela
+        });
+
+
+        // permite seleção de apenas uma linha da tabela
+        jtbUsuarios.setSelectionMode(0);
+
+
+        // redimensiona as colunas de uma tabela
+        TableColumn column = null;
+        for (int i = 0; i <= 2; i++) {
+            column = 
+
+            jtbUsuarios.getColumnModel().getColumn(i);
+            switch (i) {
+                case 0:
+                    column.setPreferredWidth(60);//id 
+                    break;
+                case 1:
+                    column.setPreferredWidth(200);//nome
+                    break;
+                case 2:
+                    column.setPreferredWidth(10);//x do excluir
+                    break;
+            }
+        }
+        
+        //função para deixar a tabela zebrada
+        jtbUsuarios.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) 
+            {
+                super.getTableCellRendererComponent(table, value, isSelected,
+                        hasFocus, row, column);
+                if (row % 2 == 0) {
+                    setBackground(Color.LIGHT_GRAY);
+                } else {
+                    setBackground(Color.WHITE);
+                }
+                
+                return this;
+            }
+        });
+        //return (true);
     }
 }

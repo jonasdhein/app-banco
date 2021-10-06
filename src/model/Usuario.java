@@ -15,6 +15,7 @@ public class Usuario {
     private String nome;
     private String login;
     private String senha;
+    private boolean excluido;
 
     public int getId() {
         return id;
@@ -47,7 +48,13 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    
-    
+
+    public boolean isExcluido() {
+        return excluido;
+    }
+
+    public void setExcluido(boolean excluido) {
+        this.excluido = excluido;
+    }   
     
 }

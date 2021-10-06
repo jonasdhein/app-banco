@@ -126,8 +126,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void menCandidatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCandidatosActionPerformed
         try{
-            TelaCandidatos tela = new TelaCandidatos();
-            tela.setVisible(true);
             
         }catch(Exception ex){
             CaixaDeDialogo.obterinstancia().exibirMensagem("Erro");
