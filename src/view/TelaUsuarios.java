@@ -7,9 +7,13 @@ package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import controller.UsuarioController;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.UIManager;
 import model.Usuario;
 import tools.CaixaDeDialogo;
+import tools.Combos;
 
 /**
  *
@@ -18,13 +22,24 @@ import tools.CaixaDeDialogo;
 public class TelaUsuarios extends javax.swing.JFrame {
 
     UsuarioController objUsuarioController;
+    Combos comboBairros;
     /**
      * Creates new form TelaUsuarios
      */
     public TelaUsuarios() {
         initComponents();
         
-        atualizarTabela();
+       try {
+           
+            comboBairros = new Combos(cbBairro);
+            comboBairros.preencheCombo("SELECT id, nome FROM bairros "
+                                        + "ORDER BY nome");
+                       
+       } catch (SQLException ex) {
+            CaixaDeDialogo.obterinstancia().exibirMensagem("Erro no init");
+        }
+        
+        limparTela();
     }
 
     /**
@@ -50,6 +65,8 @@ public class TelaUsuarios extends javax.swing.JFrame {
         jtbUsuarios = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
         btnLimpar = new javax.swing.JButton();
+        cbBairro = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -67,8 +84,8 @@ public class TelaUsuarios extends javax.swing.JFrame {
         getContentPane().add(txtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 165, 154, -1));
         getContentPane().add(txtConfirmarSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(243, 165, 135, -1));
 
-        jLabel4.setText("Confirmar Senha");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(243, 143, -1, -1));
+        jLabel4.setText("Bairro");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, -1, -1));
 
         btnSalvar.setText("SALVAR");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -114,6 +131,12 @@ public class TelaUsuarios extends javax.swing.JFrame {
         });
         getContentPane().add(btnLimpar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, -1, -1));
 
+        cbBairro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bairro 1", "Bairro 2", "Bairro 3", "Bairro 4" }));
+        getContentPane().add(cbBairro, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 110, 140, -1));
+
+        jLabel7.setText("Confirmar Senha");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -126,17 +149,24 @@ public class TelaUsuarios extends javax.swing.JFrame {
             
             objUsuarioController = new UsuarioController();
             
-            if(objUsuarioController.verificaExistencia(usuario) == true){
-                CaixaDeDialogo.obterinstancia().exibirMensagem("Este login já existe!");
-            }else{
-                retorno = objUsuarioController.incluir(usuario);
-                if(retorno){
+            if(lblId.getText().equals("ID")){
+                String ret = objUsuarioController.incluir(usuario);
+                if(ret.equals("")){
                      CaixaDeDialogo.obterinstancia().exibirMensagem("Usuário incluído com sucesso");
                 }else{
-                     CaixaDeDialogo.obterinstancia().exibirMensagem("Erro ao incluir usuário");
+                     CaixaDeDialogo.obterinstancia().exibirMensagem(ret);
+                }
+            }else{
+                usuario.setId(Integer.parseInt(lblId.getText()));
+                boolean ret = objUsuarioController.alterar(usuario);
+                if(ret){
+                     CaixaDeDialogo.obterinstancia().exibirMensagem("Usuário alterado com sucesso");
+                }else{
+                     CaixaDeDialogo.obterinstancia().exibirMensagem("Erro ao alterar");
                 }
             }
-            
+                        
+            limparTela();            
             
         }else{
             CaixaDeDialogo.obterinstancia().exibirMensagem("Erro ao validar");
@@ -165,7 +195,7 @@ public class TelaUsuarios extends javax.swing.JFrame {
                         objUsuarioController = new UsuarioController();
                         boolean retorno = objUsuarioController.excluir(codigo);
                         if(retorno){
-                            atualizarTabela();
+                            limparTela();
                             CaixaDeDialogo.obterinstancia().exibirMensagem("Registro excluído com sucesso");
                         }else{
                             CaixaDeDialogo.obterinstancia().exibirMensagem("Erro ao excluir");
@@ -189,18 +219,30 @@ public class TelaUsuarios extends javax.swing.JFrame {
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         
+        limparTela();
+    }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void limparTela(){
         lblId.setText("ID");
         txtNome.setText("");
         txtLogin.setText("");
+        txtLogin.setEnabled(true);//libera a edição no campo
+        txtSenha.setText("");
+        txtConfirmarSenha.setText("");
+        cbBairro.setSelectedIndex(0);
+        
         atualizarTabela();
-    }//GEN-LAST:event_btnLimparActionPerformed
-
+    }
+    
     private void preencherCampos(Usuario objeto){
         try{
             
             lblId.setText(String.valueOf(objeto.getId()));
             txtLogin.setText(objeto.getLogin());
+            txtLogin.setEnabled(false);//bloqueia a edição do campo na hora de alterar
             txtNome.setText(objeto.getNome());
+            
+            comboBairros.setaComboBox(String.valueOf(objeto.getId_bairro()));
             
         }catch(Exception ex){
             CaixaDeDialogo.obterinstancia().exibirMensagem(ex.getMessage(), 'e');
@@ -214,6 +256,10 @@ public class TelaUsuarios extends javax.swing.JFrame {
             objeto.setLogin(txtLogin.getText().trim());
             objeto.setNome(txtNome.getText().trim());
             objeto.setSenha(txtSenha.getText());
+            
+            Combos c = (Combos) cbBairro.getSelectedItem();
+            int cod_bairro = Integer.parseInt(c.getCodigo());
+            objeto.setId_bairro(cod_bairro);
                         
             return objeto;
             
@@ -239,14 +285,21 @@ public class TelaUsuarios extends javax.swing.JFrame {
             CaixaDeDialogo.obterinstancia().exibirMensagem("Não informe espaços em branco no login!");
             return false;
         }
+        
         //validar senha em branco
-        if(txtSenha.getText().trim().equals("")){
+        if(txtSenha.getText().trim().equals("") && lblId.getText().equals("ID")){
             CaixaDeDialogo.obterinstancia().exibirMensagem("Informe uma senha!");
             return false;
         }
         
         if(!txtSenha.getText().equals(txtConfirmarSenha.getText())){
             CaixaDeDialogo.obterinstancia().exibirMensagem("Ambas as senhas precisam ser iguais!");
+            return false;
+        }
+        
+        //validar bairro
+        if(cbBairro.getSelectedIndex() <= 0){
+            CaixaDeDialogo.obterinstancia().exibirMensagem("Escolha um bairro!");
             return false;
         }
                 
@@ -309,11 +362,13 @@ public class TelaUsuarios extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JComboBox<String> cbBairro;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtbUsuarios;
     private javax.swing.JLabel lblId;

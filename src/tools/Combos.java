@@ -59,6 +59,11 @@ public class Combos {
 
     public int setaComboBox(String wValue){
 
+        if(wValue.equals("0")){
+            cbCombo.setSelectedIndex(0);
+            return 0;
+        }
+            
         for(int i = 0; i < cbCombo.getItemCount() ;  i++ ){
             Combos c = new Combos();
             cbCombo.setSelectedIndex(i);

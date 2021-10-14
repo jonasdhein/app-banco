@@ -87,7 +87,8 @@ public class UsuarioController {
                 objUsuario.setNome(rs.getString("nome"));
                 objUsuario.setLogin(rs.getString("login"));
                 objUsuario.setSenha(rs.getString("senha"));
-                objUsuario.setExcluido(rs.getBoolean("excluido"));
+                objUsuario.setExcluido(rs.getBoolean("excluido"));  
+                objUsuario.setId_bairro(rs.getInt("id_bairro"));              
             }
               
         } catch (SQLException ex ){
@@ -132,7 +133,7 @@ public class UsuarioController {
 		
     }
     
-    public boolean incluir(Usuario objeto)
+    public String incluir(Usuario objeto)
     {
         try {
             Connection con = Conexao.getConnection();
@@ -140,17 +141,61 @@ public class UsuarioController {
             
             //VALIDAR SE O LOGIN EXISTE
             if(verificaExistencia(objeto) == true){
-                return false;
+                return "Usuário já existe";
             }else{
            
-                String wSQL = " INSERT INTO usuarios VALUES(DEFAULT, ?, ?, md5(md5(encode(?::bytea, 'base64'))), false) ";
+                String wSQL = " INSERT INTO usuarios VALUES(DEFAULT, ?, ?, md5(md5(encode(?::bytea, 'base64'))), false, ?) ";
                 stmt = con.prepareStatement(wSQL);
                 stmt.setString(1, objeto.getNome());    
                 stmt.setString(2, objeto.getLogin());            
-                stmt.setString(3, objeto.getSenha());   
+                stmt.setString(3, objeto.getSenha());            
+                stmt.setInt(4, objeto.getId_bairro());   
 
                 stmt.executeUpdate();
+            }
+            return "";
+              
+        } catch (SQLException ex ){
+            System.out.println("ERRO de SQL: " + ex.getMessage());
+            return "Erro ao incluir";
+        }catch (Exception e) {
+            System.out.println("ERRO: " + e.getMessage());
+            return "Erro ao incluir";
+        }
+		
+    }
+    
+    public boolean alterar(Usuario objeto)
+    {
+        try {
+            Connection con = Conexao.getConnection();
+            PreparedStatement stmt = null;
             
+            //VALIDAR SE O LOGIN EXISTE
+            if(verificaExistencia(objeto) == true){
+                String wSQL = " UPDATE usuarios ";
+                wSQL += " SET nome = ? ";
+                if(!objeto.getSenha().equals("")){ //senha está preenchida?
+                    wSQL += " ,senha = md5(md5(encode(?::bytea, 'base64'))) ";
+                }
+                wSQL += " ,id_bairro = ? ";
+                wSQL += " WHERE id = ? ";
+                
+                stmt = con.prepareStatement(wSQL);
+                stmt.setString(1, objeto.getNome());    
+                if(!objeto.getSenha().equals("")){//senha está preenchida?
+                    stmt.setString(2, objeto.getSenha());                   
+                    stmt.setInt(3, objeto.getId_bairro());               
+                    stmt.setInt(4, objeto.getId()); 
+                }else{
+                    stmt.setInt(2, objeto.getId_bairro()); 
+                    stmt.setInt(3, objeto.getId()); 
+                }
+                
+                stmt.executeUpdate();
+                return true;
+            }else{
+                return false;
             }
               
         } catch (SQLException ex ){
@@ -159,8 +204,6 @@ public class UsuarioController {
         }catch (Exception e) {
             System.out.println("ERRO: " + e.getMessage());
             return false;
-        }finally{
-            return true;
         }
 		
     }
@@ -173,7 +216,7 @@ public class UsuarioController {
               
             String wSQL = " UPDATE usuarios SET excluido = true WHERE id = ? ";
             stmt = con.prepareStatement(wSQL);
-            stmt.setString(1, codigo);
+            stmt.setInt(1, Integer.parseInt(codigo));
 
             stmt.executeUpdate();
             

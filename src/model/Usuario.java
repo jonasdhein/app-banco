@@ -16,6 +16,7 @@ public class Usuario {
     private String login;
     private String senha;
     private boolean excluido;
+    private int id_bairro;
 
     public int getId() {
         return id;
@@ -56,5 +57,15 @@ public class Usuario {
     public void setExcluido(boolean excluido) {
         this.excluido = excluido;
     }   
+
+    public int getId_bairro() {
+        return id_bairro;
+    }
+
+    public void setId_bairro(int id_bairro) {
+        this.id_bairro = id_bairro;
+    }
+    
+    
     
 }
