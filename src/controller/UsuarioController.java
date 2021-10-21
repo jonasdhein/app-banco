@@ -231,7 +231,7 @@ public class UsuarioController {
         }		
     }
     
-    public void preencher(JTable jtbUsuarios) {
+    public void preencher(JTable jtbUsuarios, String texto) {
 
         Conexao.abreConexao();
         
@@ -246,7 +246,9 @@ public class UsuarioController {
         
         try {
 
-            String wSql = " SELECT id, nome FROM usuarios WHERE COALESCE(excluido,false) = false ORDER BY nome ";
+            String wSql = " SELECT id, nome FROM usuarios WHERE COALESCE(excluido,false) = false ";
+            wSql += " AND nome like '%"+ texto +"%' ";
+            wSql += "ORDER BY nome ";
             
             result = Conexao.stmt.executeQuery(wSql);
             

@@ -14,6 +14,7 @@ import javax.swing.UIManager;
 import model.Usuario;
 import tools.CaixaDeDialogo;
 import tools.Combos;
+import tools.Validacao;
 
 /**
  *
@@ -51,54 +52,32 @@ public class TelaUsuarios extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblId = new javax.swing.JLabel();
-        txtNome = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        txtLogin = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtSenha = new javax.swing.JPasswordField();
-        txtConfirmarSenha = new javax.swing.JPasswordField();
-        jLabel4 = new javax.swing.JLabel();
-        btnSalvar = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        jtpPainel = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtbUsuarios = new javax.swing.JTable();
-        jLabel6 = new javax.swing.JLabel();
-        btnLimpar = new javax.swing.JButton();
+        txtPesquisa = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        txtLogin = new javax.swing.JTextField();
+        btnSalvar = new javax.swing.JButton();
+        txtConfirmarSenha = new javax.swing.JPasswordField();
         cbBairro = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtSenha = new javax.swing.JPasswordField();
         jLabel7 = new javax.swing.JLabel();
+        txtNome = new javax.swing.JTextField();
+        lblId = new javax.swing.JLabel();
+        btnLimpar = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblId.setText("ID");
-        getContentPane().add(lblId, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, -1, -1));
-        getContentPane().add(txtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 53, 154, -1));
-
-        jLabel2.setText("Login");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 87, -1, -1));
-        getContentPane().add(txtLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 109, 154, -1));
-
-        jLabel3.setText("Senha");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 143, -1, -1));
-        getContentPane().add(txtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 165, 154, -1));
-        getContentPane().add(txtConfirmarSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(243, 165, 135, -1));
-
-        jLabel4.setText("Bairro");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, -1, -1));
-
-        btnSalvar.setText("SALVAR");
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 199, -1, -1));
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Cadastro de Usuários");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, 388, -1));
+        jLabel1.setText("Pesquisa");
 
         jtbUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -111,6 +90,9 @@ public class TelaUsuarios extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jtbUsuarios.setMaximumSize(new java.awt.Dimension(400, 80));
+        jtbUsuarios.setPreferredSize(new java.awt.Dimension(50, 80));
+        jtbUsuarios.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jtbUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jtbUsuariosMousePressed(evt);
@@ -118,10 +100,75 @@ public class TelaUsuarios extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jtbUsuarios);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 380, 110));
+        txtPesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPesquisaKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPesquisaKeyReleased(evt);
+            }
+        });
 
-        jLabel6.setText("Nome");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 31, -1, -1));
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jtpPainel.addTab("Consulta", jPanel2);
+
+        jPanel1.setBackground(new java.awt.Color(240, 240, 240));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(txtLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 154, -1));
+
+        btnSalvar.setText("SALVAR");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, -1, -1));
+        jPanel1.add(txtConfirmarSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 160, 135, -1));
+
+        cbBairro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bairro 1", "Bairro 2", "Bairro 3", "Bairro 4" }));
+        jPanel1.add(cbBairro, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 140, -1));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Cadastro de Usuários");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 270, -1));
+
+        jLabel4.setText("Bairro");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, -1, -1));
+        jPanel1.add(txtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 154, -1));
+
+        jLabel7.setText("Confirmar Senha");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, -1, -1));
+        jPanel1.add(txtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 154, -1));
+
+        lblId.setText("ID");
+        jPanel1.add(lblId, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, -1, -1));
 
         btnLimpar.setText("LIMPAR");
         btnLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -129,13 +176,21 @@ public class TelaUsuarios extends javax.swing.JFrame {
                 btnLimparActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLimpar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, -1, -1));
+        jPanel1.add(btnLimpar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 190, -1, -1));
 
-        cbBairro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bairro 1", "Bairro 2", "Bairro 3", "Bairro 4" }));
-        getContentPane().add(cbBairro, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 110, 140, -1));
+        jLabel6.setText("Nome");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
-        jLabel7.setText("Confirmar Senha");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, -1, -1));
+        jLabel3.setText("Senha");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+
+        jLabel2.setText("Login");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
+
+        jtpPainel.addTab("Manutenção", jPanel1);
+
+        getContentPane().add(jtpPainel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 580, 410));
+        jtpPainel.getAccessibleContext().setAccessibleName("Consulta");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -222,6 +277,20 @@ public class TelaUsuarios extends javax.swing.JFrame {
         limparTela();
     }//GEN-LAST:event_btnLimparActionPerformed
 
+    private void txtPesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyPressed
+        
+    }//GEN-LAST:event_txtPesquisaKeyPressed
+
+    private void txtPesquisaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyReleased
+        try{
+            String filtro = txtPesquisa.getText();
+            atualizarTabela(filtro);
+            
+        }catch(Exception ex){
+            
+        }
+    }//GEN-LAST:event_txtPesquisaKeyReleased
+
     private void limparTela(){
         lblId.setText("ID");
         txtNome.setText("");
@@ -231,12 +300,15 @@ public class TelaUsuarios extends javax.swing.JFrame {
         txtConfirmarSenha.setText("");
         cbBairro.setSelectedIndex(0);
         
-        atualizarTabela();
+        jtpPainel.setSelectedIndex(0);
+        txtPesquisa.setText("");
+        atualizarTabela("");
     }
     
     private void preencherCampos(Usuario objeto){
         try{
-            
+            jtpPainel.setSelectedIndex(1);
+                    
             lblId.setText(String.valueOf(objeto.getId()));
             txtLogin.setText(objeto.getLogin());
             txtLogin.setEnabled(false);//bloqueia a edição do campo na hora de alterar
@@ -302,15 +374,15 @@ public class TelaUsuarios extends javax.swing.JFrame {
             CaixaDeDialogo.obterinstancia().exibirMensagem("Escolha um bairro!");
             return false;
         }
-                
+                        
         return true;
     }
     
     //função para buscar as informações e preencher em tela
-    private void atualizarTabela() {
+    private void atualizarTabela(String filtro) {
         try {
             objUsuarioController = new UsuarioController();
-            objUsuarioController.preencher(jtbUsuarios);
+            objUsuarioController.preencher(jtbUsuarios, filtro);
 
         } catch (Exception ex) {
             CaixaDeDialogo.obterinstancia().exibirMensagem("ERRO:" + ex.getMessage());
@@ -363,18 +435,23 @@ public class TelaUsuarios extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JComboBox<String> cbBairro;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtbUsuarios;
+    private javax.swing.JTabbedPane jtpPainel;
     private javax.swing.JLabel lblId;
     private javax.swing.JPasswordField txtConfirmarSenha;
     private javax.swing.JTextField txtLogin;
     private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtPesquisa;
     private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 }
