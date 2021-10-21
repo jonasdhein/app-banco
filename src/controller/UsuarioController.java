@@ -247,7 +247,7 @@ public class UsuarioController {
         try {
 
             String wSql = " SELECT id, nome FROM usuarios WHERE COALESCE(excluido,false) = false ";
-            wSql += " AND nome like '%"+ texto +"%' ";
+            wSql += " AND LOWER(nome) like LOWER('%"+ texto +"%') ";
             wSql += "ORDER BY nome ";
             
             result = Conexao.stmt.executeQuery(wSql);
