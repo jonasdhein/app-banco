@@ -8,6 +8,8 @@ package view;
 import com.formdev.flatlaf.FlatLightLaf;
 import controller.UsuarioController;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -52,6 +54,7 @@ public class TelaUsuarios extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jtpPainel = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -70,9 +73,11 @@ public class TelaUsuarios extends javax.swing.JFrame {
         txtNome = new javax.swing.JTextField();
         lblId = new javax.swing.JLabel();
         btnLimpar = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtDataNascimento = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -140,7 +145,7 @@ public class TelaUsuarios extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(240, 240, 240));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(txtLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 154, -1));
+        jPanel1.add(txtLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, 154, -1));
 
         btnSalvar.setText("SALVAR");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -148,27 +153,27 @@ public class TelaUsuarios extends javax.swing.JFrame {
                 btnSalvarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, -1, -1));
-        jPanel1.add(txtConfirmarSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 160, 135, -1));
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, -1, -1));
+        jPanel1.add(txtConfirmarSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, 140, -1));
 
         cbBairro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bairro 1", "Bairro 2", "Bairro 3", "Bairro 4" }));
-        jPanel1.add(cbBairro, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 140, -1));
+        jPanel1.add(cbBairro, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 160, 140, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Cadastro de Usuários");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 270, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 270, -1));
 
         jLabel4.setText("Bairro");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, -1, -1));
-        jPanel1.add(txtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 154, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, -1, -1));
+        jPanel1.add(txtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 154, -1));
 
         jLabel7.setText("Confirmar Senha");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, -1, -1));
-        jPanel1.add(txtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 154, -1));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 200, -1, -1));
+        jPanel1.add(txtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 154, -1));
 
         lblId.setText("ID");
-        jPanel1.add(lblId, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, -1, -1));
+        jPanel1.add(lblId, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, -1, -1));
 
         btnLimpar.setText("LIMPAR");
         btnLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -176,16 +181,26 @@ public class TelaUsuarios extends javax.swing.JFrame {
                 btnLimparActionPerformed(evt);
             }
         });
-        jPanel1.add(btnLimpar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 190, -1, -1));
-
-        jLabel6.setText("Nome");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+        jPanel1.add(btnLimpar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 250, -1, -1));
 
         jLabel3.setText("Senha");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, -1, -1));
 
         jLabel2.setText("Login");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, -1, -1));
+
+        jLabel8.setText("Nome");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, -1, -1));
+
+        jLabel6.setText("Data de Nascimento");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 90, -1, -1));
+
+        try {
+            txtDataNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jPanel1.add(txtDataNascimento, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 110, 140, -1));
 
         jtpPainel.addTab("Manutenção", jPanel1);
 
@@ -314,6 +329,17 @@ public class TelaUsuarios extends javax.swing.JFrame {
             txtLogin.setEnabled(false);//bloqueia a edição do campo na hora de alterar
             txtNome.setText(objeto.getNome());
             
+            if(objeto.getData_nascimento() != null){
+                //yyyy-MM-dd
+                Date data_nascimento = new SimpleDateFormat("yyyy-MM-dd").parse(objeto.getData_nascimento());
+
+                //dd/MM/yyyy
+                String data_formatada = new SimpleDateFormat("dd/MM/yyyy").format(data_nascimento);
+
+                txtDataNascimento.setText(data_formatada);
+            
+            }
+                        
             comboBairros.setaComboBox(String.valueOf(objeto.getId_bairro()));
             
         }catch(Exception ex){
@@ -332,6 +358,11 @@ public class TelaUsuarios extends javax.swing.JFrame {
             Combos c = (Combos) cbBairro.getSelectedItem();
             int cod_bairro = Integer.parseInt(c.getCodigo());
             objeto.setId_bairro(cod_bairro);
+            
+            Date data_nascimento = new SimpleDateFormat("dd/MM/yyyy").parse(txtDataNascimento.getText());
+
+            String data_formatada = new SimpleDateFormat("yyyy-MM-dd").format(data_nascimento);
+            objeto.setData_nascimento(data_formatada);
                         
             return objeto;
             
@@ -434,6 +465,7 @@ public class TelaUsuarios extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbBairro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -442,6 +474,7 @@ public class TelaUsuarios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -449,6 +482,7 @@ public class TelaUsuarios extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jtpPainel;
     private javax.swing.JLabel lblId;
     private javax.swing.JPasswordField txtConfirmarSenha;
+    private javax.swing.JFormattedTextField txtDataNascimento;
     private javax.swing.JTextField txtLogin;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtPesquisa;

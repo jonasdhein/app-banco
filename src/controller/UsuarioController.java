@@ -12,7 +12,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 import java.util.List;
 import java.util.logging.Level;
@@ -88,7 +90,8 @@ public class UsuarioController {
                 objUsuario.setLogin(rs.getString("login"));
                 objUsuario.setSenha(rs.getString("senha"));
                 objUsuario.setExcluido(rs.getBoolean("excluido"));  
-                objUsuario.setId_bairro(rs.getInt("id_bairro"));              
+                objUsuario.setId_bairro(rs.getInt("id_bairro"));   
+                objUsuario.setData_nascimento(rs.getString("data_nascimento"));       
             }
               
         } catch (SQLException ex ){
@@ -144,12 +147,16 @@ public class UsuarioController {
                 return "Usuário já existe";
             }else{
            
-                String wSQL = " INSERT INTO usuarios VALUES(DEFAULT, ?, ?, md5(md5(encode(?::bytea, 'base64'))), false, ?) ";
+                String wSQL = " INSERT INTO usuarios VALUES(DEFAULT, ?, ?, md5(md5(encode(?::bytea, 'base64'))), false, ?, ?) ";
                 stmt = con.prepareStatement(wSQL);
                 stmt.setString(1, objeto.getNome());    
                 stmt.setString(2, objeto.getLogin());            
                 stmt.setString(3, objeto.getSenha());            
-                stmt.setInt(4, objeto.getId_bairro());   
+                stmt.setInt(4, objeto.getId_bairro());  
+                
+                java.sql.Date date = java.sql.Date.valueOf(objeto.getData_nascimento());
+                stmt.setDate(5, date);
+                
 
                 stmt.executeUpdate();
             }
@@ -240,17 +247,21 @@ public class UsuarioController {
         
         cabecalhos.add("Id");
         cabecalhos.add("Nome");
+        cabecalhos.add("Nascimento");
         cabecalhos.add("Exc");
              
         ResultSet result = null;
         
         try {
-
-            String wSql = " SELECT id, nome FROM usuarios WHERE COALESCE(excluido,false) = false ";
-            wSql += " AND LOWER(nome) like LOWER('%"+ texto +"%') ";
-            wSql += "ORDER BY nome ";
-            
-            result = Conexao.stmt.executeQuery(wSql);
+            StringBuilder sql = new StringBuilder();
+            sql.append(" SELECT id, nome, TO_CHAR(data_nascimento, 'dd/MM/yyyy') as data_nascimento ");
+            sql.append(" FROM usuarios WHERE COALESCE(excluido,false) = false ");
+            sql.append(" AND LOWER(nome) like LOWER('%");
+            sql.append(texto);
+            sql.append("%') ");
+            sql.append("ORDER BY nome ");
+                        
+            result = Conexao.stmt.executeQuery(sql.toString());
             
             Vector<Object> linha;
             while(result.next()) {
@@ -258,6 +269,7 @@ public class UsuarioController {
                 
                 linha.add(result.getInt(1));
                 linha.add(result.getString(2));    
+                linha.add(result.getString(3));    
 
                 linha.add("X");
                 
@@ -286,7 +298,7 @@ public class UsuarioController {
 
         // redimensiona as colunas de uma tabela
         TableColumn column = null;
-        for (int i = 0; i <= 2; i++) {
+        for (int i = 0; i <= 3; i++) {
             column = 
 
             jtbUsuarios.getColumnModel().getColumn(i);
@@ -298,6 +310,9 @@ public class UsuarioController {
                     column.setPreferredWidth(200);//nome
                     break;
                 case 2:
+                    column.setPreferredWidth(100);//data
+                    break;
+                case 3:
                     column.setPreferredWidth(10);//x do excluir
                     break;
             }

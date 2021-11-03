@@ -17,6 +17,7 @@ public class Usuario {
     private String senha;
     private boolean excluido;
     private int id_bairro;
+    private String data_nascimento;
 
     public int getId() {
         return id;
@@ -64,8 +65,14 @@ public class Usuario {
 
     public void setId_bairro(int id_bairro) {
         this.id_bairro = id_bairro;
+    }    
+
+    public String getData_nascimento() {
+        return data_nascimento;
     }
-    
-    
+
+    public void setData_nascimento(String data_nascimento) {
+        this.data_nascimento = data_nascimento;
+    }    
     
 }
