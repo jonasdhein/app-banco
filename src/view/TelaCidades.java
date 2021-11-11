@@ -46,6 +46,7 @@ public class TelaCidades extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
         txtId = new javax.swing.JLabel();
@@ -53,16 +54,25 @@ public class TelaCidades extends javax.swing.JFrame {
         jcbEstados = new javax.swing.JComboBox<>();
         btnSalvar = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
+        chbEstoque = new javax.swing.JCheckBox();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Nome");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 81, -1, -1));
+        getContentPane().add(txtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 103, 158, -1));
 
         txtId.setText("ID");
+        getContentPane().add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 32, -1, -1));
 
         jLabel2.setText("Estado");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 143, -1, -1));
 
         jcbEstados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(jcbEstados, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 165, 158, -1));
 
         btnSalvar.setText("Salvar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -70,49 +80,26 @@ public class TelaCidades extends javax.swing.JFrame {
                 btnSalvarActionPerformed(evt);
             }
         });
+        getContentPane().add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, -1, -1));
 
         btnLimpar.setText("Limpar");
+        getContentPane().add(btnLimpar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2)
-                    .addComponent(txtId)
-                    .addComponent(jLabel1)
-                    .addComponent(txtNome)
-                    .addComponent(jcbEstados, 0, 158, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSalvar)
-                    .addComponent(btnLimpar))
-                .addGap(62, 62, 62))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(txtId)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(btnSalvar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLimpar))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jcbEstados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
-        );
+        chbEstoque.setText("Controla Estoque");
+        chbEstoque.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                chbEstoqueStateChanged(evt);
+            }
+        });
+        getContentPane().add(chbEstoque, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, -1, -1));
+
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setText("SIM");
+        getContentPane().add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, -1, -1));
+
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setText("NÃO");
+        getContentPane().add(jRadioButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -120,7 +107,6 @@ public class TelaCidades extends javax.swing.JFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try{
             if(validarDados() == true){
-                
                 Cidade objeto = guardarDados();
                 if(objeto != null){
                 
@@ -139,6 +125,15 @@ public class TelaCidades extends javax.swing.JFrame {
             CaixaDeDialogo.obterinstancia().exibirMensagem(ex.getMessage(), 'e');
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void chbEstoqueStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chbEstoqueStateChanged
+        if(chbEstoque.isSelected()){
+            txtNome.setText("");
+            txtNome.setEnabled(false);
+        }else{
+            txtNome.setEnabled(true);
+        }
+    }//GEN-LAST:event_chbEstoqueStateChanged
 
     private Cidade guardarDados(){
         try{
@@ -169,7 +164,7 @@ public class TelaCidades extends javax.swing.JFrame {
             
             if(jcbEstados.getSelectedIndex() <= 0){
                 CaixaDeDialogo.obterinstancia().exibirMensagem("Informe um estado");
-               return false;
+                return false;
             }
             
             return true;
@@ -218,8 +213,12 @@ public class TelaCidades extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JCheckBox chbEstoque;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JComboBox<String> jcbEstados;
     private javax.swing.JLabel txtId;
     private javax.swing.JTextField txtNome;

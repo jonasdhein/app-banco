@@ -256,7 +256,7 @@ public class TelaUsuarios extends javax.swing.JFrame {
             Usuario objeto = objUsuarioController.buscar(codigo);
                 
             //Verifica se clicou na coluna 2 => EXCLUIR
-            if (jtbUsuarios.isColumnSelected(2)) {
+            if (jtbUsuarios.isColumnSelected(4)) {
                 try {
                     boolean wPergunta = CaixaDeDialogo.obterinstancia()
                             .pedirConfirmacao("Tem certeza de que deseja excluir?", "", 'p');
@@ -275,7 +275,7 @@ public class TelaUsuarios extends javax.swing.JFrame {
                 } catch (Exception ex) {
                     CaixaDeDialogo.obterinstancia().exibirMensagem("Erro: " + ex.getMessage());
                 }
-            } else {
+            }else if (jtbUsuarios.isColumnSelected(3)) {
                 if (objeto != null) {
                     preencherCampos(objeto);
                 }
